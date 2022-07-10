@@ -8,6 +8,8 @@
 
 System::String^ passwordGenerator(int length);
 int addToNewFile(System::String^ website, System::String^ mail, System::String^ password, System::String^path, System::String^filename);
+int addToExistingFile(System::String^ website, System::String^ mail, System::String^ password, System::String^ filePath);
+bool isTxt(System::String^ filePath);
 
 namespace password {
 
@@ -73,6 +75,7 @@ namespace password {
 
 	private: System::Windows::Forms::Label^ label7;
 	private: System::Windows::Forms::OpenFileDialog^ openFileDialog1;
+	private: System::Windows::Forms::Label^ errorDisplay;
 
 
 
@@ -113,6 +116,7 @@ namespace password {
 			this->pathBox2 = (gcnew System::Windows::Forms::TextBox());
 			this->label7 = (gcnew System::Windows::Forms::Label());
 			this->openFileDialog1 = (gcnew System::Windows::Forms::OpenFileDialog());
+			this->errorDisplay = (gcnew System::Windows::Forms::Label());
 			this->SuspendLayout();
 			// 
 			// websiteBox
@@ -317,11 +321,23 @@ namespace password {
 			// 
 			this->openFileDialog1->FileName = L"openFileDialog1";
 			// 
+			// errorDisplay
+			// 
+			this->errorDisplay->AutoSize = true;
+			this->errorDisplay->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+			this->errorDisplay->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->errorDisplay->Location = System::Drawing::Point(182, 338);
+			this->errorDisplay->Name = L"errorDisplay";
+			this->errorDisplay->Size = System::Drawing::Size(0, 16);
+			this->errorDisplay->TabIndex = 19;
+			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(631, 468);
+			this->Controls->Add(this->errorDisplay);
 			this->Controls->Add(this->button3);
 			this->Controls->Add(this->pathBox2);
 			this->Controls->Add(this->label7);
@@ -348,32 +364,55 @@ namespace password {
 
 		}
 #pragma endregion
-		
+
+// Following code is active when "GENERATE!" is pressed (button1)
+
 private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) {
+	// Checking if user gave a password lenght, if not program displays an error message and returns to start
 	if (lengthBox->Text == "") {
 		passwordBox->Text = System::Convert::ToString("Please Enter a Password Length");
 		return;
 	}
+
 	System::String^ website = "";
 	System::String^ mail = "";
 	System::String^ password = "";
 	int length = System::Convert::ToInt16(lengthBox->Text);
 
+	// Getting user input for website and mail/username if associated textboxes are used
 	if (websiteBox->Text != "")
 		website = websiteBox->Text;
 	if (mailBox->Text != "")
 		mail = mailBox->Text;
+
+	// Generating password (passwordGenerator() is located inside MyForm.cpp). Displaying password in associated textBox
 	password = passwordGenerator(length);
 	passwordBox->Text = password;
+
+	// Creating a new file if associated checkBox is checked (addToNewFile() is located inside MyForm.cpp)
 	if (checkBox1->Checked) {
 		if (addToNewFile(website, mail, password, pathBox1->Text, nameBox->Text) != 0)
-			passwordBox->Text = System::Convert::ToString("Error Adding Password to File");
+			errorDisplay->Text = System::Convert::ToString("Error Creating Password File");
+		return;
+	}
+
+	// Adding password to already existing file if associated checkBox is checked (addToExistingFile() is located inside MyForm.cpp)
+	if (checkBox2->Checked) {
+		if (addToExistingFile(website, mail, password, pathBox2->Text) != 0)
+			errorDisplay->Text = System::Convert::ToString("Error Adding Password to File");
+		return;
 	}
 }
+
+// Following code is active when checkBox1 changes state
+
 private: System::Void checkBox1_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
 	if (checkBox1->Checked) {
+		// Unchecking checkBox2 if checkBox1 checked (the two can not be checked together)
 		if (checkBox2->Checked)
 			checkBox2->Checked = false;
+
+		// Enabling corresponding UI elements when checkBox2 is checked
 		button2->Enabled = true;
 		label5->Enabled = true;
 		pathBox1->Enabled = true;
@@ -381,6 +420,7 @@ private: System::Void checkBox1_CheckedChanged(System::Object^ sender, System::E
 		nameBox->Enabled = true;
 	}
 	else {
+		// Unabling corresponding UI elements when checkBox2 is checked
 		button2->Enabled= false;
 		label5->Enabled = false;
 		pathBox1->Enabled = false;
@@ -388,37 +428,66 @@ private: System::Void checkBox1_CheckedChanged(System::Object^ sender, System::E
 		nameBox->Enabled = false;
 	}
 }
+
+// Following code is active when checkBox2 changes state
+
 private: System::Void checkBox2_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
 	if (checkBox2->Checked) {
+		// Unchecking checkBox1 if checkBox2 checked (the two can not be checked together)
 		if (checkBox1->Checked)
 			checkBox1->Checked = false;
+
+		// Enabling corresponding UI elements when checkBox2 is checked
 		label7->Enabled = true;
 		pathBox2->Enabled = true;
 		button3->Enabled = true;
 	}
 	else {
+		// Unabling corresponding UI elements when checkBox2 is checked
 		label7->Enabled = false;
 		pathBox2->Enabled = false;
 		button3->Enabled = false;
 	}
 }
+
+// Following code is active when folder browser is clicked (button2)
+
 private: System::Void button2_Click(System::Object^ sender, System::EventArgs^ e) {
+	// Choosing the destination for password file
 	folderBrowserDialog1->ShowDialog();
+
+	// Showing file path in textBox
 	pathBox1->Text = folderBrowserDialog1->SelectedPath;
 }
+
+// Following code is active when website textBox has a text change (textBox1)
+
 private: System::Void textBox1_TextChanged(System::Object^ sender, System::EventArgs^ e) {
+	// Generating a filename corresponding to the website name if website textBox is not empty
 	if (websiteBox->Text != "")
 		nameBox->Text = websiteBox->Text + ".txt";
 }
+
+// Following code is active when password textBox has a text change (passwordBox)
+
 private: System::Void passwordBox_TextChanged(System::Object^ sender, System::EventArgs^ e) {
+	// Changing the cursor whether a password has been generated or not
 	if (passwordBox->Text != "") {
 		passwordBox->Cursor = System::Windows::Forms::Cursors::IBeam;
 		passwordBox->Enabled = true;
 	}
 }
+
 private: System::Void button3_Click(System::Object^ sender, System::EventArgs^ e) {
+	// Opening the file to write to
 	openFileDialog1->ShowDialog();
-	//pathBox2->Text = openFileDialog1->
+	
+	// Showing file path in textBox
+	pathBox2->Text = openFileDialog1->FileName;
+
+	// Checking file type and displaying an error if file is not a .txt
+	if (isTxt(pathBox2->Text) == false)
+		errorDisplay->Text = "Invalid file type, please select a .txt file";
 }
 };
 }

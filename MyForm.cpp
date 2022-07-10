@@ -21,6 +21,16 @@ System::String^ passwordGenerator(int length) {
     return Str;
 }
 
+bool isTxt(System::String^ filePath)
+{
+	std::string fullPath = msclr::interop::marshal_as<std::string>(filePath);	
+	std::string fileExtension = fullPath.substr(fullPath.find_last_of(".") + 1);
+	if (fileExtension == "txt")
+		return true;
+	else
+		return false;
+}
+
 bool existingFile(std::string fullPath)
 {
 	std::ifstream fin(fullPath);
@@ -55,6 +65,24 @@ int addToNewFile(System::String^ website, System::String^ mail, System::String^ 
 		outfile << msclr::interop::marshal_as<std::string>(password) << std::endl;
 	
 	// Closing file
+	outfile.close();
+	return 0;
+}
+
+int addToExistingFile(System::String^ website, System::String^ mail, System::String^ password, System::String^ filePath)
+{
+	std::string fullPath = msclr::interop::marshal_as<std::string>(filePath);
+	std::ofstream outfile;
+	outfile.open(fullPath, std::ios_base::app);
+	if (!outfile)
+		return 1;
+	outfile << "-------------" << std::endl;
+	if (website != "")
+		outfile << msclr::interop::marshal_as<std::string>(website) << std::endl;
+	if (mail != "")
+		outfile << msclr::interop::marshal_as<std::string>(mail) << std::endl;
+	if (password != "")
+		outfile << msclr::interop::marshal_as<std::string>(password) << std::endl;
 	outfile.close();
 	return 0;
 }
