@@ -60,12 +60,19 @@ namespace password {
 
 	private: System::Windows::Forms::CheckBox^ checkBox1;
 	private: System::Windows::Forms::Label^ label5;
-	private: System::Windows::Forms::TextBox^ pathBox;
+	private: System::Windows::Forms::TextBox^ pathBox1;
+
 
 	private: System::Windows::Forms::Button^ button2;
 	private: System::Windows::Forms::FolderBrowserDialog^ folderBrowserDialog1;
 	private: System::Windows::Forms::Label^ label6;
 	private: System::Windows::Forms::TextBox^ nameBox;
+	private: System::Windows::Forms::CheckBox^ checkBox2;
+	private: System::Windows::Forms::Button^ button3;
+	private: System::Windows::Forms::TextBox^ pathBox2;
+
+	private: System::Windows::Forms::Label^ label7;
+	private: System::Windows::Forms::OpenFileDialog^ openFileDialog1;
 
 
 
@@ -96,11 +103,16 @@ namespace password {
 			this->passwordBox = (gcnew System::Windows::Forms::TextBox());
 			this->checkBox1 = (gcnew System::Windows::Forms::CheckBox());
 			this->label5 = (gcnew System::Windows::Forms::Label());
-			this->pathBox = (gcnew System::Windows::Forms::TextBox());
+			this->pathBox1 = (gcnew System::Windows::Forms::TextBox());
 			this->button2 = (gcnew System::Windows::Forms::Button());
 			this->folderBrowserDialog1 = (gcnew System::Windows::Forms::FolderBrowserDialog());
 			this->label6 = (gcnew System::Windows::Forms::Label());
 			this->nameBox = (gcnew System::Windows::Forms::TextBox());
+			this->checkBox2 = (gcnew System::Windows::Forms::CheckBox());
+			this->button3 = (gcnew System::Windows::Forms::Button());
+			this->pathBox2 = (gcnew System::Windows::Forms::TextBox());
+			this->label7 = (gcnew System::Windows::Forms::Label());
+			this->openFileDialog1 = (gcnew System::Windows::Forms::OpenFileDialog());
 			this->SuspendLayout();
 			// 
 			// websiteBox
@@ -184,87 +196,139 @@ namespace password {
 			// 
 			// passwordBox
 			// 
+			this->passwordBox->Cursor = System::Windows::Forms::Cursors::Default;
+			this->passwordBox->Enabled = false;
 			this->passwordBox->Location = System::Drawing::Point(95, 422);
 			this->passwordBox->Name = L"passwordBox";
 			this->passwordBox->ReadOnly = true;
 			this->passwordBox->Size = System::Drawing::Size(468, 20);
 			this->passwordBox->TabIndex = 8;
 			this->passwordBox->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
+			this->passwordBox->TextChanged += gcnew System::EventHandler(this, &MyForm::passwordBox_TextChanged);
 			// 
 			// checkBox1
 			// 
 			this->checkBox1->AutoSize = true;
 			this->checkBox1->Location = System::Drawing::Point(180, 188);
 			this->checkBox1->Name = L"checkBox1";
-			this->checkBox1->Size = System::Drawing::Size(156, 17);
+			this->checkBox1->Size = System::Drawing::Size(174, 17);
 			this->checkBox1->TabIndex = 9;
-			this->checkBox1->Text = L"Store password in wallet file";
+			this->checkBox1->Text = L"Create new password wallet file";
 			this->checkBox1->UseVisualStyleBackColor = true;
 			this->checkBox1->CheckedChanged += gcnew System::EventHandler(this, &MyForm::checkBox1_CheckedChanged);
 			// 
 			// label5
 			// 
 			this->label5->AutoSize = true;
+			this->label5->Enabled = false;
 			this->label5->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->label5->Location = System::Drawing::Point(20, 207);
+			this->label5->Location = System::Drawing::Point(10, 207);
 			this->label5->Name = L"label5";
 			this->label5->Size = System::Drawing::Size(164, 24);
 			this->label5->TabIndex = 11;
 			this->label5->Text = L"Path to Wallet File:";
-			this->label5->Visible = false;
 			// 
-			// pathBox
+			// pathBox1
 			// 
-			this->pathBox->Location = System::Drawing::Point(180, 211);
-			this->pathBox->Name = L"pathBox";
-			this->pathBox->Size = System::Drawing::Size(383, 20);
-			this->pathBox->TabIndex = 10;
-			this->pathBox->Text = L"Desktop";
-			this->pathBox->Visible = false;
+			this->pathBox1->Enabled = false;
+			this->pathBox1->Location = System::Drawing::Point(180, 211);
+			this->pathBox1->Name = L"pathBox1";
+			this->pathBox1->Size = System::Drawing::Size(383, 20);
+			this->pathBox1->TabIndex = 10;
+			this->pathBox1->Text = L"C:\\";
 			// 
 			// button2
 			// 
+			this->button2->Enabled = false;
 			this->button2->Location = System::Drawing::Point(482, 211);
 			this->button2->Name = L"button2";
 			this->button2->Size = System::Drawing::Size(81, 20);
 			this->button2->TabIndex = 12;
 			this->button2->Text = L"Browse";
 			this->button2->UseVisualStyleBackColor = true;
-			this->button2->Visible = false;
 			this->button2->Click += gcnew System::EventHandler(this, &MyForm::button2_Click);
 			// 
 			// label6
 			// 
 			this->label6->AutoSize = true;
+			this->label6->Enabled = false;
 			this->label6->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->label6->Location = System::Drawing::Point(80, 239);
+			this->label6->Location = System::Drawing::Point(75, 240);
 			this->label6->Name = L"label6";
 			this->label6->Size = System::Drawing::Size(99, 24);
 			this->label6->TabIndex = 14;
 			this->label6->Text = L"File name:";
-			this->label6->Visible = false;
 			// 
 			// nameBox
 			// 
+			this->nameBox->Enabled = false;
 			this->nameBox->Location = System::Drawing::Point(180, 244);
 			this->nameBox->Name = L"nameBox";
 			this->nameBox->Size = System::Drawing::Size(383, 20);
 			this->nameBox->TabIndex = 13;
 			this->nameBox->Text = L"password.txt";
-			this->nameBox->Visible = false;
+			// 
+			// checkBox2
+			// 
+			this->checkBox2->AutoSize = true;
+			this->checkBox2->Location = System::Drawing::Point(180, 280);
+			this->checkBox2->Name = L"checkBox2";
+			this->checkBox2->Size = System::Drawing::Size(182, 17);
+			this->checkBox2->TabIndex = 15;
+			this->checkBox2->Text = L"Add password to existing file (.txt)";
+			this->checkBox2->UseVisualStyleBackColor = true;
+			this->checkBox2->CheckedChanged += gcnew System::EventHandler(this, &MyForm::checkBox2_CheckedChanged);
+			// 
+			// button3
+			// 
+			this->button3->Enabled = false;
+			this->button3->Location = System::Drawing::Point(482, 306);
+			this->button3->Name = L"button3";
+			this->button3->Size = System::Drawing::Size(81, 20);
+			this->button3->TabIndex = 18;
+			this->button3->Text = L"Browse";
+			this->button3->UseVisualStyleBackColor = true;
+			this->button3->Click += gcnew System::EventHandler(this, &MyForm::button3_Click);
+			// 
+			// pathBox2
+			// 
+			this->pathBox2->Enabled = false;
+			this->pathBox2->Location = System::Drawing::Point(180, 306);
+			this->pathBox2->Name = L"pathBox2";
+			this->pathBox2->Size = System::Drawing::Size(383, 20);
+			this->pathBox2->TabIndex = 16;
+			this->pathBox2->Text = L"C:\\";
+			// 
+			// label7
+			// 
+			this->label7->AutoSize = true;
+			this->label7->Enabled = false;
+			this->label7->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->label7->Location = System::Drawing::Point(10, 302);
+			this->label7->Name = L"label7";
+			this->label7->Size = System::Drawing::Size(164, 24);
+			this->label7->TabIndex = 17;
+			this->label7->Text = L"Path to Wallet File:";
+			// 
+			// openFileDialog1
+			// 
+			this->openFileDialog1->FileName = L"openFileDialog1";
 			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(631, 468);
+			this->Controls->Add(this->button3);
+			this->Controls->Add(this->pathBox2);
+			this->Controls->Add(this->label7);
+			this->Controls->Add(this->checkBox2);
 			this->Controls->Add(this->label6);
 			this->Controls->Add(this->nameBox);
 			this->Controls->Add(this->button2);
-			this->Controls->Add(this->label5);
-			this->Controls->Add(this->pathBox);
 			this->Controls->Add(this->checkBox1);
 			this->Controls->Add(this->passwordBox);
 			this->Controls->Add(this->label4);
@@ -275,6 +339,8 @@ namespace password {
 			this->Controls->Add(this->label1);
 			this->Controls->Add(this->mailBox);
 			this->Controls->Add(this->websiteBox);
+			this->Controls->Add(this->pathBox1);
+			this->Controls->Add(this->label5);
 			this->Name = L"MyForm";
 			this->Text = L"MyForm";
 			this->ResumeLayout(false);
@@ -300,32 +366,59 @@ private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e
 	password = passwordGenerator(length);
 	passwordBox->Text = password;
 	if (checkBox1->Checked) {
-		addToNewFile(website, mail, password, pathBox->Text, nameBox->Text);
+		if (addToNewFile(website, mail, password, pathBox1->Text, nameBox->Text) != 0)
+			passwordBox->Text = System::Convert::ToString("Error Adding Password to File");
 	}
 }
 private: System::Void checkBox1_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
 	if (checkBox1->Checked) {
-		button2->Visible = true;
-		label5->Visible = true;
-		pathBox->Visible = true;
-		label6->Visible = true;
-		nameBox->Visible = true;
+		if (checkBox2->Checked)
+			checkBox2->Checked = false;
+		button2->Enabled = true;
+		label5->Enabled = true;
+		pathBox1->Enabled = true;
+		label6->Enabled = true;
+		nameBox->Enabled = true;
 	}
 	else {
-		button2->Visible = false;
-		label5->Visible = false;
-		pathBox->Visible = false;
-		label6->Visible = false;
-		nameBox->Visible = false;
+		button2->Enabled= false;
+		label5->Enabled = false;
+		pathBox1->Enabled = false;
+		label6->Enabled = false;
+		nameBox->Enabled = false;
+	}
+}
+private: System::Void checkBox2_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
+	if (checkBox2->Checked) {
+		if (checkBox1->Checked)
+			checkBox1->Checked = false;
+		label7->Enabled = true;
+		pathBox2->Enabled = true;
+		button3->Enabled = true;
+	}
+	else {
+		label7->Enabled = false;
+		pathBox2->Enabled = false;
+		button3->Enabled = false;
 	}
 }
 private: System::Void button2_Click(System::Object^ sender, System::EventArgs^ e) {
 	folderBrowserDialog1->ShowDialog();
-	pathBox->Text = folderBrowserDialog1->SelectedPath;
+	pathBox1->Text = folderBrowserDialog1->SelectedPath;
 }
 private: System::Void textBox1_TextChanged(System::Object^ sender, System::EventArgs^ e) {
 	if (websiteBox->Text != "")
 		nameBox->Text = websiteBox->Text + ".txt";
+}
+private: System::Void passwordBox_TextChanged(System::Object^ sender, System::EventArgs^ e) {
+	if (passwordBox->Text != "") {
+		passwordBox->Cursor = System::Windows::Forms::Cursors::IBeam;
+		passwordBox->Enabled = true;
+	}
+}
+private: System::Void button3_Click(System::Object^ sender, System::EventArgs^ e) {
+	openFileDialog1->ShowDialog();
+	//pathBox2->Text = openFileDialog1->
 }
 };
 }
