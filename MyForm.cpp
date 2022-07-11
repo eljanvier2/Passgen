@@ -93,6 +93,8 @@ using namespace System::Windows::Forms;
 
 void main(array<String^>^ args)
 {
+	system("dir");
+	system("close");
     Application::EnableVisualStyles();
     Application::SetCompatibleTextRenderingDefault(false);
     password::MyForm form;

@@ -392,14 +392,18 @@ private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e
 	// Creating a new file if associated checkBox is checked (addToNewFile() is located inside MyForm.cpp)
 	if (checkBox1->Checked) {
 		if (addToNewFile(website, mail, password, pathBox1->Text, nameBox->Text) != 0)
-			errorDisplay->Text = System::Convert::ToString("Error Creating Password File");
+			errorDisplay->Text = "Error Creating Password File";
+		else
+			errorDisplay->Text = "";
 		return;
 	}
 
 	// Adding password to already existing file if associated checkBox is checked (addToExistingFile() is located inside MyForm.cpp)
 	if (checkBox2->Checked) {
 		if (addToExistingFile(website, mail, password, pathBox2->Text) != 0)
-			errorDisplay->Text = System::Convert::ToString("Error Adding Password to File");
+			errorDisplay->Text = "Error Adding Password to File";
+		else
+			errorDisplay->Text = "";
 		return;
 	}
 }
@@ -488,6 +492,8 @@ private: System::Void button3_Click(System::Object^ sender, System::EventArgs^ e
 	// Checking file type and displaying an error if file is not a .txt
 	if (isTxt(pathBox2->Text) == false)
 		errorDisplay->Text = "Invalid file type, please select a .txt file";
+	else
+		errorDisplay->Text = "";
 }
 };
 }
